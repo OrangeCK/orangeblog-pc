@@ -376,7 +376,6 @@ export default {
             }
         },
         created(){
-            this.searchImage(1);
             let token = getCookie("token");
             let refreshToken = getCookie("refreshToken");
             let jsonStr = '{"Authorization":"'+token+'","Refresh_Token":"'+refreshToken+'"}';
@@ -387,6 +386,7 @@ export default {
             this.$nextTick(function(){
                 this.offsetTop = $(".tools").offset().top;
             });
+            this.searchImage(1);
         },
         destroyed(){
             window.removeEventListener('scroll', this.handleScroll);

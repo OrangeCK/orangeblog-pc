@@ -5,29 +5,29 @@ Vue.use(Vuex)
 
 const state={
     // 登录的基本信息
-    loginName:window.localStorage.getItem('userName'),
-    userId:window.localStorage.getItem('userId'),
+    loginName:window.sessionStorage.getItem('userName'),
+    userId:window.sessionStorage.getItem('userId'),
     // 菜单栏展示的状态
-    breadCrumbs:window.localStorage.getItem('breadCrumbs'),
-    activeName:window.localStorage.getItem('activeName')
+    breadCrumbs:window.sessionStorage.getItem('breadCrumbs'),
+    activeName:window.sessionStorage.getItem('activeName')
     // count:0
 }
 const mutations={
     SET_LoginName:(state, value) =>{
         state.loginName = value;
-        window.localStorage.setItem('userName', value);
+        window.sessionStorage.setItem('userName', value);
     },
     SET_UserId:(state, value) =>{
         state.userId = value;
-        window.localStorage.setItem('userId', value);
+        window.sessionStorage.setItem('userId', value);
     },
     SET_BreadCrumbs:(state, value) =>{
         state.breadCrumbs = value;
-        window.localStorage.setItem('breadCrumbs', value);
+        window.sessionStorage.setItem('breadCrumbs', value);
     },
     SET_ActiveName:(state, value) =>{
         state.activeName = value;
-        window.localStorage.setItem('activeName', value);
+        window.sessionStorage.setItem('activeName', value);
     }
 }
 const getters = {

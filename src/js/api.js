@@ -3,6 +3,7 @@ let API = function(config){
         "login": config.lmOrange + '/login/goLogin',
         "judgeLogin": config.lmOrange + '/login/judgeLogin',
         "quitLogin": config.lmOrange + '/login/quitLogin',
+        "validateCode": config.lmOrange + '/login/validateCode',
         "employeePageList": config.lmOrange + '/orangeblog/employee/employeePageList',
         "saveEmployee": config.lmOrange + '/orangeblog/employee/saveEmployee',
         "disableEmployee": config.lmOrange + '/orangeblog/employee/disableEmployee',

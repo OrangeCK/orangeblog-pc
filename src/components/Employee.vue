@@ -310,9 +310,10 @@ export default {
             }
         },
         created(){
-            this.searchEmployee(1);
+            
         },
         mounted(){
+            this.searchEmployee(1);
             window.addEventListener('scroll', this.handleScroll);
             this.$nextTick(function(){
                 this.offsetTop = $(".tools").offset().top;

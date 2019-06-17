@@ -7,6 +7,13 @@
         <ul class="loginForm">
           <li><label class="accountIcon"></label><input type="text" v-model="loginForm.account" class="txtAccount" placeholder="请输入登录账号" /></li>
           <li><label class="passwordIcon"></label><input type="password" v-model="loginForm.password" class="txtPwd" placeholder="请输入登录密码" /></li>
+          <li style="border: 0px;"><input type="text" v-model="loginForm.validateCode" class="txtCode" placeholder="请输入图片验证码" />
+            <dl>
+              <dt><img class="imgCode" :src="validateCodeImage" @click="getValidateCode"></dt>
+              <dd><i @click="getValidateCode">看不清？刷新一下</i></dd>
+            </dl>
+          </li>
+          <!-- <li style="width:50%; border:0;"><Input type="text" v-model="loginForm.password"  placeholder="输入验证码" /><img :src="validateCodeImage" /></li> -->
           <li style="border:0px;">
             <Button type="primary" class="loginBtn" @click="loginAction">登录</Button>
           </li>
@@ -54,15 +61,13 @@
   border-radius: 3px;
 }
 .loginForm li dl{
-  height: 40px;
-  width: 145px;
-  float: left;
-  margin: 0px;
+  margin-left: 40px;
+  display: inline-block;
 }
 .loginForm li i{
 	font-family: 'PingFang-SC-Medium';
 	font-size: 12px;
-  color: #e4ebf3;
+  color: #4794ec;
   cursor: pointer;
 }
 .loginForm .txtAccount{
@@ -79,11 +84,18 @@
     font-size: 16px;
     outline: none;
 }
+.loginForm .txtCode{
+    width: 180px;
+    height: 48px;
+    float: left;
+    font-size: 16px;
+    border: solid 1px #bad2d7;
+    outline: none;
+}
 .loginForm .imgCode{
-  width: 99px;
-  height: 33px;
+  width: 100px;
+  height: 30px;
   border: 0px;
-  margin: 0px 0 0 40px;
 }
 .loginForm .accountIcon
 {
@@ -109,7 +121,7 @@
     font-family: 'PingFang-SC-Heavy';
     font-size: 30px;
     color: #222222;
-    margin-top: 50px;
+    margin-top: 25px;
     padding-left: 70px;
   }
   .singin{
@@ -133,28 +145,42 @@ import {setCookie,getCookie} from '../js/cookieUtil.js'
   export default {
     data() {
       return {
-        backgroudDiv: {backgroundImage: 'url(' + require('../assets/login_bg.png') + ')'},
+        // backgroudDiv: {backgroundImage: 'url(' + require('../assets/login_bg.png') + ')'},
         // chkCodePath:"/login/getValidateCode?r="+Math.random(),
+        validateCodeImage: '',
         loginForm: {
           loginName: '',
-          password: ''
+          password: '',
+          validateCode: ''
         }
       }
     },
-    create(){
-      
+    mounted(){
+      this.getValidateCode();
     },
     methods: {
+      getValidateCode(){
+        this.service({
+          url: this.API.validateCode,
+          method: "get"
+        }).then(res => {
+          let data = res.data;
+          if(data.success == true){
+            this.validateCodeImage = data.data;
+          }
+        });
+      },
       loginAction(){
         this.service({
           url: this.API.login,
           data: {
             loginName:this.loginForm.account,
             password:this.loginForm.password,
+            validateCode:this.loginForm.validateCode
           },
           method: "post"
         }).then(response => {
-              let data = response.data.data;
+            let data = response.data.data;
             if(response.data.success == true){
               setCookie('token', data.Authorization);
               setCookie('refreshToken', data.Refresh_Token);
