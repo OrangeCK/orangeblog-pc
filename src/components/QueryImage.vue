@@ -92,6 +92,9 @@ div .tools {
     padding: 10px 24px 0 24px;
     position: relative;
 }
+div .tools button{
+    margin-left: 5px;
+}
 div .is_fixed {
     top: 0px;
     left: 233px;
@@ -214,68 +217,101 @@ export default {
                 },
                 categoryList:[
                     {
-                        value: 'New York',
-                        label: 'New York'
+                        value: 'front',
+                        label: '前端'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        value: 'back',
+                        label: '后端',
                     },
                     {
-                        value: 'Sydney',
-                        label: 'Sydney'
+                        value: 'base',
+                        label: '基础',
+                    },
+                    {
+                        value: 'lz',
+                        label: '栗子生活',
                     }
                 ],
                 categorys:[],
                 cascaderList:[{
-                    value: '1',
-                    label: '北京',
+                    value: 'front',
+                    label: '前端',
                     children: [
                             {
-                                value: 'London',
-                                label: 'London'
+                                value: 'vue',
+                                label: 'vue'
                             },
                             {
-                                value: 'New York',
-                                label: 'New York'
+                                value: 'js',
+                                label: 'js'
                             },
                             {
-                                value: 'Sydney',
-                                label: 'Sydney'
+                                value: 'css',
+                                label: 'css'
                             }
                         ]
                     },{
-                    value: '12',
-                    label: '江苏',
+                    value: 'back',
+                    label: '后端',
                     children: [
                             {
-                                value: 'London',
-                                label: 'London'
+                                value: 'java',
+                                label: 'java'
                             },
                             {
-                                value: 'New York',
-                                label: 'New York'
+                                value: 'mysql',
+                                label: 'mysql'
                             },
                             {
-                                value: 'Sydney',
-                                label: 'Sydney'
+                                value: 'exp',
+                                label: '异常'
+                            },
+                            {
+                                value: 'mybatis',
+                                label: 'mybatis'
+                            },
+                            {
+                                value: 'spring',
+                                label: 'spring'
+                            },
+                            {
+                                value: 'springboot',
+                                label: 'springboot'
                             }
                         ]
                     },{
-                    value: '13',
-                    label: '栗子小厨',
+                    value: 'base',
+                    label: '基础',
                     children: [
                             {
-                                value: 'London',
-                                label: 'London'
+                                value: 'env',
+                                label: '环境搭建'
                             },
                             {
-                                value: 'New York',
-                                label: 'New York'
+                                value: 'idea',
+                                label: 'idea使用'
+                            }
+                        ]
+                    },{
+                    value: 'lz',
+                    label: '栗子生活',
+                    children: [
+                            {
+                                value: 'lzcf',
+                                label: '栗子厨房'
                             },
                             {
-                                value: 'Sydney',
-                                label: 'Sydney'
+                                value: 'lztj',
+                                label: '栗子推荐'
+                            },
+                            {
+                                value: 'lzyw',
+                                label: '栗子游玩'
+                            },
+                            {
+                                value: 'lzxq',
+                                label: '栗子心情'
                             }
                         ]
                     }

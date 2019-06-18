@@ -91,6 +91,9 @@ div .tools {
     padding: 10px 24px 0 24px;
     position: relative;
 }
+div .tools button{
+    margin-left: 5px;
+}
 div .is_fixed {
     top: 0px;
     left: 233px;

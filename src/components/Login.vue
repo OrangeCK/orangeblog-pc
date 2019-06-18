@@ -1,7 +1,7 @@
 <template>
   <div class="loginbg">
     <div class="page lm-shadow">
-      <div class="head">渠道拓展平台</div>
+      <div class="head">LMORANGE</div>
       <div class="singin">SING IN</div>
       <div class="body">
         <ul class="loginForm">
@@ -15,7 +15,7 @@
           </li>
           <!-- <li style="width:50%; border:0;"><Input type="text" v-model="loginForm.password"  placeholder="输入验证码" /><img :src="validateCodeImage" /></li> -->
           <li style="border:0px;">
-            <Button type="primary" class="loginBtn" @click="loginAction">登录</Button>
+            <Button type="primary" class="loginBtn" @click="loginAction" :loading="loading">登录</Button>
           </li>
         </ul>
       </div>
@@ -148,6 +148,7 @@ import {setCookie,getCookie} from '../js/cookieUtil.js'
         // backgroudDiv: {backgroundImage: 'url(' + require('../assets/login_bg.png') + ')'},
         // chkCodePath:"/login/getValidateCode?r="+Math.random(),
         validateCodeImage: '',
+        loading: false,
         loginForm: {
           loginName: '',
           password: '',
@@ -171,6 +172,7 @@ import {setCookie,getCookie} from '../js/cookieUtil.js'
         });
       },
       loginAction(){
+        this.loading = true;
         this.service({
           url: this.API.login,
           data: {
@@ -180,22 +182,23 @@ import {setCookie,getCookie} from '../js/cookieUtil.js'
           },
           method: "post"
         }).then(response => {
-            let data = response.data.data;
-            if(response.data.success == true){
-              setCookie('token', data.Authorization);
-              setCookie('refreshToken', data.Refresh_Token);
-              this.$store.commit('SET_LoginName', data.userName);
-              this.$store.commit('SET_UserId', data.id);
-              this.$store.commit('SET_BreadCrumbs', '[]');
-              this.$store.commit('SET_ActiveName', '');
-              this.$router.push({ path: "/" });
-            }else{
-              this.$Message.error({
-                content:response.data.msg,
-                duration:5
-              });
-            }
-          });  
+          this.loading = false;
+          let data = response.data.data;
+          if(response.data.success == true){
+            setCookie('token', data.Authorization);
+            setCookie('refreshToken', data.Refresh_Token);
+            this.$store.commit('SET_LoginName', data.userName);
+            this.$store.commit('SET_UserId', data.id);
+            this.$store.commit('SET_BreadCrumbs', '[]');
+            this.$store.commit('SET_ActiveName', '');
+            this.$router.push({ path: "/" });
+          }else{
+            this.$Message.error({
+              content:response.data.msg,
+              duration:5
+            });
+          }
+        });  
       }
     }
   }
