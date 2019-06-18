@@ -46,7 +46,7 @@
                                 :headers="headers"
                                 type="drag"
                                 name="multipartFile"
-                                action="http://127.0.0.1:8888/orangeblog/aliOss/uploadToOss">
+                                :action="uploadToOss">
                                 <div style="height:58px;line-height: 58px; ">
                                     <Icon type="ios-camera" size="30"></Icon>
                                 </div>
@@ -159,6 +159,7 @@ export default {
                 itemUrl:'',
                 showUploadList: true,
                 visible: false,
+                uploadToOss: this.API.uploadToOss,
                 markdownEdit:{
                     value: '# 你好'
                 },
