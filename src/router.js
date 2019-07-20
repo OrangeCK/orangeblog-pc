@@ -4,6 +4,8 @@ import Default from '@/components/Default'
 import Login from '@/components/Login'
 import Employee from '@/components/Employee'
 import QueryImage from '@/components/QueryImage'
+import Dictionary from '@/components/Dictionary'
+import DictionaryValue from '@/components/DictionaryValue'
 
 Vue.use(Router)
 
@@ -31,6 +33,16 @@ const router =  new Router({
           path: 'QueryImage',
           name: 'QueryImage',
           component: QueryImage
+        },
+        {
+          path: 'Dictionary',
+          name: 'Dictionary',
+          component: Dictionary
+        },
+        {
+          path: 'DictionaryValue',
+          name: 'DictionaryValue',
+          component: DictionaryValue
         }
       ]
     }
