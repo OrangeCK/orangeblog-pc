@@ -36,6 +36,11 @@
                     <FormItem label="字典描述" prop="dicDesc" >
                         <Input v-model="addModal.form.dicDesc" placeholder="请输入字典描述"/>
                     </FormItem>
+                    <FormItem label="字典类型" prop="dicType" >
+                        <Select v-model="addModal.form.dicType" placeholder="请选择字典类型">
+                            <Option v-for="item in addModal.form.dictionaryTypeList" :value="item.dicValCode" :key="item.dicValCode">{{ item.dicValValue }}</Option>
+                        </Select>
+                    </FormItem>
                 </Form>   
                 <div slot="footer">
                     <Button type="error" size="large" long  @click="submitDictionary('addModal.form')">提交</Button>
@@ -126,7 +131,9 @@ export default {
                         id:null,
                         dicCode:'',
                         dicValue:'',
-                        dicDesc:''
+                        dicDesc:'',
+                        dicType:'',
+                        dictionaryTypeList:[]
                     },
                     ruleValidate:{
                         dicCode:{
@@ -154,6 +161,10 @@ export default {
                         {
                             "title":"字典描述",
                             "key":"dicDesc"
+                        },
+                        {
+                            "title":"字典类型",
+                            "key":"dicType"
                         },
                         {
                             "title":"操作",
@@ -209,6 +220,7 @@ export default {
         },
         mounted(){
             this.searchDictionary(1);
+            this.initDictionaryTypeList();
             window.addEventListener('scroll', this.handleScroll);
             this.$nextTick(function(){
                 this.offsetTop = $(".tools").offset().top;
@@ -228,6 +240,15 @@ export default {
             handlePageSize(pageSize){
                 this.dTable.page.pageSize = pageSize;
                 this.searchDictionary(1);
+            },
+            initDictionaryTypeList(){
+                this.service({
+                    url: this.API.getDictionaryTypeList,
+                    method: "post"
+                }).then(response => {
+                    var data = response.data.data;
+                    this.addModal.form.dictionaryTypeList = data;
+                });  
             },
             searchDictionary(page){
                 this.dTable.loading = true;
@@ -256,6 +277,7 @@ export default {
                 this.addModal.form.dicCode = params.row.dicCode;
                 this.addModal.form.dicValue = params.row.dicValue;
                 this.addModal.form.dicDesc = params.row.dicDesc;
+                this.addModal.form.dicType = params.row.dicType;
             },
             submitDictionary(name){
                  this.$refs[name].validate((valid) => {
@@ -269,7 +291,8 @@ export default {
                                 'id':this.addModal.form.id,
                                 'dicCode':this.addModal.form.dicCode,
                                 'dicValue':this.addModal.form.dicValue,
-                                'dicDesc':this.addModal.form.dicDesc
+                                'dicDesc':this.addModal.form.dicDesc,
+                                'dicType':this.addModal.form.dicType
                             },
                             method: "post"
                         }).then(response => {

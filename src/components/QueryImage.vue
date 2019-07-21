@@ -235,88 +235,7 @@ export default {
                     }
                 ],
                 categorys:[],
-                cascaderList:[{
-                    value: 'front',
-                    label: '前端',
-                    children: [
-                            {
-                                value: 'vue',
-                                label: 'vue'
-                            },
-                            {
-                                value: 'js',
-                                label: 'js'
-                            },
-                            {
-                                value: 'css',
-                                label: 'css'
-                            }
-                        ]
-                    },{
-                    value: 'back',
-                    label: '后端',
-                    children: [
-                            {
-                                value: 'java',
-                                label: 'java'
-                            },
-                            {
-                                value: 'mysql',
-                                label: 'mysql'
-                            },
-                            {
-                                value: 'exp',
-                                label: '异常'
-                            },
-                            {
-                                value: 'mybatis',
-                                label: 'mybatis'
-                            },
-                            {
-                                value: 'spring',
-                                label: 'spring'
-                            },
-                            {
-                                value: 'springboot',
-                                label: 'springboot'
-                            }
-                        ]
-                    },{
-                    value: 'base',
-                    label: '基础',
-                    children: [
-                            {
-                                value: 'env',
-                                label: '环境搭建'
-                            },
-                            {
-                                value: 'idea',
-                                label: 'idea使用'
-                            }
-                        ]
-                    },{
-                    value: 'lz',
-                    label: '栗子生活',
-                    children: [
-                            {
-                                value: 'lzcf',
-                                label: '栗子厨房'
-                            },
-                            {
-                                value: 'lztj',
-                                label: '栗子推荐'
-                            },
-                            {
-                                value: 'lzyw',
-                                label: '栗子游玩'
-                            },
-                            {
-                                value: 'lzxq',
-                                label: '栗子心情'
-                            }
-                        ]
-                    }
-                ],
+                cascaderList:[],
                 imageTable:{
                     loading:false,
                     columns:[
@@ -419,6 +338,7 @@ export default {
             this.headers = JSON.parse(jsonStr);
         },
         mounted(){
+            this.initBlogCategoryList();
             window.addEventListener('scroll', this.handleScroll);
             this.$nextTick(function(){
                 this.offsetTop = $(".tools").offset().top;
@@ -446,6 +366,15 @@ export default {
             },
             handleRemove () {
                 this.uploadUrl = '';
+            },
+            initBlogCategoryList(){
+                this.service({
+                    url: this.API.blogCategoryList,
+                    method: "post"
+                }).then(response => {
+                    var data = response.data.data;
+                    this.cascaderList = data;
+                });  
             },
             searchImage(page){
                 this.imageTable.loading = true;

@@ -11,6 +11,7 @@ let API = function(config){
         "imageDetail": config.lmOrange + '/orangeblog/image/imageDetail',
         "saveImage": config.lmOrange + '/orangeblog/image/saveImageBlog',
         "disableImage": config.lmOrange + '/orangeblog/image/deleteImageBlog',
+        "blogCategoryList": config.lmOrange + '/orangeblog/image/blogCategoryList',
         "uploadToOss": config.lmOrange + '/orangeblog/aliOss/uploadToOss',
         "deleteFromOss": config.lmOrange + '/orangeblog/aliOss/deleteFromOss',
         "updateImageBlogStatus": config.lmOrange + '/orangeblog/image/updateImageBlogStatus',
@@ -20,7 +21,8 @@ let API = function(config){
         "saveDictionaryValue": config.lmOrange + '/orangeblog/dictionaryValue/saveDictionaryValue',
         "getAllDictionaryList": config.lmOrange + '/orangeblog/dictionary/getAllDictionaryList',
         "deleteDictionary": config.lmOrange + '/orangeblog/dictionary/deleteDictionary',
-        "deleteDictionaryValue": config.lmOrange + '/orangeblog/dictionaryValue/deleteDictionaryValue'
+        "deleteDictionaryValue": config.lmOrange + '/orangeblog/dictionaryValue/deleteDictionaryValue',
+        "getDictionaryTypeList": config.lmOrange + '/orangeblog/dictionaryValue/getDictionaryTypeList'
     };
     return api;
 }
