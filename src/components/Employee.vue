@@ -169,7 +169,6 @@ div .div_form{
 }
 </style>
 <script>
-import {setCookie,getCookie} from '../js/cookieUtil.js'
 import $ from 'jquery'
 export default {
         data () {

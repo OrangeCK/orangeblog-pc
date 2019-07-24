@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const state={
     // 登录的基本信息
+    token:window.sessionStorage.getItem('token'),
     loginName:window.sessionStorage.getItem('userName'),
     userId:window.sessionStorage.getItem('userId'),
     // 菜单栏展示的状态
@@ -13,6 +14,10 @@ const state={
     // count:0
 }
 const mutations={
+    SET_Token:(state, value) =>{
+        state.token = value;
+        window.sessionStorage.setItem('token', value);
+    },
     SET_LoginName:(state, value) =>{
         state.loginName = value;
         window.sessionStorage.setItem('userName', value);

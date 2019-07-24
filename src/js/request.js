@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {setCookie,getCookie} from './cookieUtil.js'
 import router from '../router';
+import store from './store';
 
 const service = axios.create({
     withCredentials: true,
@@ -10,11 +10,9 @@ const service = axios.create({
   service.interceptors.request.use(
     config => {
       // console.log("正在请求", config);
-      let token = getCookie("token");
-      let refreshToken = getCookie("refreshToken");
+      let token = store.state.token
       if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
           config.headers.Authorization = token;
-          config.headers.Refresh_Token = refreshToken;
       }
       return config;
     },
@@ -25,10 +23,10 @@ const service = axios.create({
   // http response拦截器
   service.interceptors.response.use(data => {// 响应成功关闭loading
     // console.log("成功响应",data);
-    let token = data.headers.authorization;
-    if(token){
-      setCookie('token', token);
-    }
+    // let token = data.headers.authorization;
+    // if(token){
+    //   store.commit('SET_Token', token)
+    // }
     return data
    }, 
    error => {

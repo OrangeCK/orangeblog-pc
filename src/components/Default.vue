@@ -9,11 +9,11 @@
                     </div>
                     <Submenu :name="menu.id" v-for="menu in form.menus" :key="menu.id">
                         <template slot="title">
-                            <Icon :type="menu.iconType" size="18"></Icon>
+                            <Icon :custom="menu.iconType" size="18"></Icon>
                             {{menu.menuName}}
                         </template>
                         <MenuItem :name="children.mCode" v-for="(children,index) in menu.menuList" :key="index">
-                            <Icon :type="children.iconType2" size="16"></Icon>
+                            <Icon :custom="children.iconType2" size="16"></Icon>
                             {{children.mName}}
                         </MenuItem>
                     </Submenu>
@@ -27,8 +27,8 @@
                     <label>测试平台</label>
                     <div class="userInfo">
                         <!-- <img src="../assets/user.png" />  -->
-                        <Icon custom="iconfont icon-wode1" size="36" />
-                        <span>{{$store.state.loginName}}</span>
+                        <Icon custom="iconfont icon-shenfenzheng" size="36" />
+                        <span>&nbsp&nbsp{{$store.state.loginName}}，你好</span>
                         <Icon class="quit_user" @click="quit" custom="iconfont icon-tuichu1" size="24"/>
                     </div>
                 </div> 
@@ -99,7 +99,6 @@
     } */
 </style>
 <script>
-import {setCookie,getCookie,delCookie} from '../js/cookieUtil'
     export default {
         data(){
             return{
@@ -112,11 +111,11 @@ import {setCookie,getCookie,delCookie} from '../js/cookieUtil'
                 },
                 form:{
                     menus:[
-                        {id:4,menuName:'配置管理',menuNum:'0137',iconType:'ios-basket-outline',
-                            menuList:[{mCode:'Employee',mName:'用户管理',iconType2:'ios-basket-outline'},
-                                {mCode:'Dictionary',mName:'字典配置',iconType2:'ios-basket-outline'},
-                                {mCode:'DictionaryValue',mName:'字典值配置',iconType2:'ios-basket-outline'}]},
-                        {id:5,menuName:'博客管理',menuNum:'0138',iconType:'md-cube',menuList:[{mCode:'QueryImage',mName:'查询博客',iconType2:'md-cube'}]}
+                        {id:4,menuName:'配置管理',menuNum:'0137',iconType:'iconfont icon-fenlei2',
+                            menuList:[{mCode:'Employee',mName:'用户管理',iconType2:'iconfont icon-wodedamaijihuo'},
+                                {mCode:'Dictionary',mName:'字典配置',iconType2:'iconfont icon-fenlei'},
+                                {mCode:'DictionaryValue',mName:'字典值配置',iconType2:'iconfont icon-fenlei'}]},
+                        {id:5,menuName:'博客管理',menuNum:'0138',iconType:'iconfont icon-createtask',menuList:[{mCode:'QueryImage',mName:'查询博客',iconType2:'iconfont icon-sousuo'}]}
                     ]
                 }
             }
@@ -140,8 +139,7 @@ import {setCookie,getCookie,delCookie} from '../js/cookieUtil'
                             method: "post"
                         }).then(response => {
                             let data = response.data;
-                            delCookie("token");
-                            delCookie("refreshToken");
+                            this.$store.commit('SET_Token', '');
                             this.$router.replace({
                                 path:'/Login'                            
                             });
@@ -150,8 +148,9 @@ import {setCookie,getCookie,delCookie} from '../js/cookieUtil'
                 });
             },
             jumpIndex(){
-                this.$router.push({ path: 'TestVue2' });  
-                this.activeName = 'ssss';
+                this.$router.push({ path: '/' });
+                this.$store.commit('SET_ActiveName', '');
+                this.$store.commit('SET_BreadCrumbs', '');
             },
             changeTab(name){
                 var breakFlag = false;

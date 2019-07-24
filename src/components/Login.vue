@@ -141,7 +141,6 @@
 
 
 <script>
-import {setCookie,getCookie} from '../js/cookieUtil.js'
   export default {
     data() {
       return {
@@ -185,8 +184,7 @@ import {setCookie,getCookie} from '../js/cookieUtil.js'
           this.loading = false;
           let data = response.data.data;
           if(response.data.success == true){
-            setCookie('token', data.Authorization);
-            setCookie('refreshToken', data.Refresh_Token);
+            this.$store.commit('SET_Token', data.Authorization);
             this.$store.commit('SET_LoginName', data.userName);
             this.$store.commit('SET_UserId', data.id);
             this.$store.commit('SET_BreadCrumbs', '[]');

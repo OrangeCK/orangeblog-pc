@@ -15,20 +15,26 @@
                 <Divider orientation="left"><h4>填写信息</h4></Divider>
                 <div>
                     <Form :model="formItem" :label-width="80">
-                        <FormItem label="标题：" >
-                            <Input v-model="formItem.title" placeholder="请输入标题..." class="form_inp"/>
-                            <Button style="float:right;" type="warning" @click="submitImage" :style="{width:'100px'}">
-                                <span v-if="formItem.id == null || formItem.id == ''">保存草稿</span>
-                                <span v-if="formItem.id != null && formItem.id != ''">更新草稿</span>
-                            </Button>
-                        </FormItem>
-                        <FormItem label="分类：" >
-                            <Cascader :data="cascaderList" v-model="categorys" class="form_inp"></Cascader>
-                        </FormItem>
+                        <div>
+                            <FormItem label="标题：" class="form_inp">
+                                <Input v-model="formItem.title" placeholder="请输入标题..." />
+                            </FormItem>
+                            <FormItem label="分类：" class="form_inp">
+                                <Cascader :data="cascaderList" v-model="categorys" ></Cascader>
+                            </FormItem>
+                        </div>
+                        <div>
+                            <FormItem label="优先级别：" class="form_inp">
+                                <Select placeholder="请选择优先级别..." v-model="formItem.priorityNum" clearable filterable>
+                                    <Option v-for="item in priorityNumList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
+                            </FormItem>
+                        </div>
                         <FormItem label="概要：" >
                             <Input v-model="formItem.outline" placeholder="请输入内容概要..." />
                         </FormItem>
-                        <FormItem label="图片：">
+                        <div>
+                            <FormItem label="图片：" class="form_inp">
                             <div class="demo-upload-list" v-if="formItem.imageUrl != null && formItem.imageUrl != ''">
                                 <img :src="formItem.imageUrl" >
                                 <div class="demo-upload-list-cover">
@@ -51,12 +57,21 @@
                                     <Icon type="ios-camera" size="30"></Icon>
                                 </div>
                             </Upload>
-                    
-                        </FormItem>
+                            </FormItem>
+                            <FormItem label="图片地址：" class="form_inp">
+                                <Input v-model="formItem.imageUrl" placeholder="请输入图片地址或者上传图片" />
+                            </FormItem>
+                        </div>
                         <FormItem label="正文：">
                                 <mavon-editor ref=md v-model="markdownEdit.value" :toolbars="toolbars" style="min-height:400px;" :ishljs="false"
                                     @change="changeData" @imgAdd="$imgAdd" @imgDel="$imgDel" :boxShadow="false"/>
                         </FormItem>
+                        <div style="text-align:center;">
+                            <Button type="warning" @click="submitImage" :style="{width:'100px'}">
+                                <span v-if="formItem.id == null || formItem.id == ''">保存草稿</span>
+                                <span v-if="formItem.id != null && formItem.id != ''">更新草稿</span>
+                            </Button>
+                        </div>
                     </Form>
                 </div>
             </Drawer>
@@ -77,7 +92,8 @@
 
 <style scoped>
 form .form_inp{
-    width:500px;
+    width:50%;
+    display: inline-block;
 }
 .table table{
     min-width: 1600px;
@@ -150,7 +166,6 @@ div .inp{
 }
 </style>
 <script>
-import {setCookie,getCookie,delCookie} from '../js/cookieUtil.js'
 import {isEmptyOrUndefined} from '../js/util'
 import $ from 'jquery'
 export default {
@@ -174,6 +189,7 @@ export default {
                     imageUrl: null,
                     categoryName: '',
                     categoryId: '',
+                    priorityNum: '',
                     parentCategoryName: '',
                     parentCategoryId: ''
                 },
@@ -216,6 +232,20 @@ export default {
                     title:'',
                     category:''
                 },
+                priorityNumList:[
+                    {
+                        value: '1',
+                        label: '1'
+                    },
+                    {
+                        value: '2',
+                        label: '2',
+                    },
+                    {
+                        value: '3',
+                        label: '3',
+                    }
+                ],
                 categoryList:[
                     {
                         value: 'front',
@@ -254,9 +284,24 @@ export default {
                             width:100
                         },
                         {
-                            "title":"图片",
-                            "key":"imageUrl",
-                            tooltip:true
+                            "title":"阅读量",
+                            "key":"blogView",
+                            width:80
+                        },
+                        {
+                            "title":"喜欢量",
+                            "key":"praiseNum",
+                            width:80
+                        },
+                        {
+                            "title":"作者",
+                            "key":"authorName",
+                            width:80
+                        },
+                        {
+                            "title":"优先级",
+                            "key":"priorityNum",
+                            width:80
                         },
                         {
                             "title":"状态",
@@ -332,9 +377,8 @@ export default {
             }
         },
         created(){
-            let token = getCookie("token");
-            let refreshToken = getCookie("refreshToken");
-            let jsonStr = '{"Authorization":"'+token+'","Refresh_Token":"'+refreshToken+'"}';
+            let token = this.$store.state.token;
+            let jsonStr = '{"Authorization":"'+token+'"}';
             this.headers = JSON.parse(jsonStr);
         },
         mounted(){
@@ -406,6 +450,7 @@ export default {
                 this.formItem.outline = row.outline;
                 this.formItem.categoryName = row.categoryName;
                 this.formItem.categoryId = row.categoryId;
+                this.formItem.priorityNum = row.priorityNum;
                 this.formItem.parentCategoryId = row.parentCategoryId;
                 this.formItem.parentCategoryName = row.parentCategoryName;
                 this.categorys.push(row.parentCategoryId);
@@ -568,6 +613,7 @@ export default {
                         'markdownText':this.formItem.markdownText,
                         'categoryName':this.formItem.categoryName,
                         'categoryId':this.formItem.categoryId,
+                        'priorityNum':this.formItem.priorityNum,
                         'parentCategoryName':this.formItem.parentCategoryName,
                         'parentCategoryId':this.formItem.parentCategoryId,
                         'imageUrl': this.formItem.imageUrl
@@ -594,6 +640,7 @@ export default {
                 this.formItem.content = '';
                 this.formItem.categoryName = '';
                 this.formItem.categoryId = '';
+                this.formItem.priorityNum = '';
                 this.markdownEdit.value  = '';
                 this.formItem.parentCategoryId = '';
                 this.formItem.parentCategoryName = '';
@@ -608,8 +655,9 @@ export default {
                     this.tipMessage("warning", "请选择分类");
                     return false;
                 }
-                // if(isEmptyOrUndefined(this.formItem.categoryId)){
-                    
+                // if(isEmptyOrUndefined(this.formItem.priorityNum)){
+                //     this.tipMessage("warning", "请选择优先级别");
+                //     return false;
                 // }
                 if(isEmptyOrUndefined(this.formItem.outline)){
                     this.tipMessage("warning", "请填写概要");

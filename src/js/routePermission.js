@@ -1,7 +1,7 @@
 import router from '@/router';
 import iView from 'iview';
-import {getCookie} from './cookieUtil.js';
-import axios from 'axios';
+import store from './store';
+// import axios from 'axios';
 
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.config({
@@ -10,7 +10,7 @@ router.beforeEach((to, from, next) => {
     });
     iView.LoadingBar.start();
     if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-      let token = getCookie("token");
+      let token = store.state.token
       // 通过vuex state获取当前的token是否存在
       if (token) {
         next();
